@@ -8,5 +8,7 @@
 ### Let's divide in parts first, creating the main table, creating the sp_main and after that the sp that will be checkin the main table;
 ## Step 1 
 *  Open SSMS and connect to your SQL Server instance;
+*  Run the script in the provide [create-main-table.sql](create-main-table.sql) file in your database. Will create a table that will be consulted in future by the others sp;
+## Step 2 
 *  Run the script in the provide [script-create-main.sql](script-create-main.sql) file in your database. The script will create a stored procedure with SP_AUDITPROCEDURECARTEIRAMAIN object name;
 *    About that SP: The script will truncate the table TB_MIS_LOG_CARGA (columns: ID_LOG, ID_CEDENTE, NM_CEDENTE, CONT_DT_CAD, FLAG_INSERT, FLAG_UPDATE, CAMPO1) and will insert information returned on databases tables that are updated by other company area (Processing) after processing the load made avaliable by the customer;
