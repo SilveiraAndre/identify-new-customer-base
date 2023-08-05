@@ -10,5 +10,10 @@
 *  Open SSMS and connect to your SQL Server instance;
 *  Run the script in the provide [create-main-table.sql](create-main-table.sql) file in your database. Will create a table that will be consulted in future by the others sp;
 ## Step 2 
-*  Run the script in the provide [script-create-main.sql](script-create-main.sql) file in your database. The script will create a stored procedure with SP_AUDITPROCEDURECARTEIRAMAIN object name;
-*    About that SP: The script will truncate the table TB_MIS_LOG_CARGA (columns: ID_LOG, ID_CEDENTE, NM_CEDENTE, CONT_DT_CAD, FLAG_INSERT, FLAG_UPDATE, CAMPO1) and will insert information returned on databases tables that are updated by other company area (Processing) after processing the load made avaliable by the customer;
+*  Execute the script in the provide [script-create-main.sql](script-create-main.sql) file in your database. The script will create a stored procedure with SP_AUDITPROCEDURECARTEIRAMAIN object name;
+* About that SP: The script will truncate the table TB_MIS_LOG_CARGA (columns: ID_LOG, ID_CEDENTE, NM_CEDENTE, CONT_DT_CAD, FLAG_INSERT, FLAG_UPDATE, CAMPO1) and will insert information returned on databases tables that are updated by other company area (Processing) after processing the load made avaliable by the customer;
+* That stored procedure will be executed in Job Schedule (in my case execute at 7 am), create the script of that job here [create-job-main.sql](create-job-main.sql);
+## Step 3 
+* Run the script in the provide [script-check-content.sql](script-check-content.sql) file in your database. The script will create a procedure with SP_AUDITPROCEDURECARTEIRACONTENT object name;
+* About that SP: The TSQL Script will execute and return the id, name and new data of the customers. After that the cursor CURSOR_A will identify if not exists the customer on the TB_MIS_LOG_CARGA. In case of true, will execute a insert and execute another procedure @msg (in my case she performs another sp) and input the flag insert = 1. In case of the customer already exists but having a diferent date reference, will execute the update altering the flag insert to 1;
+* That stored procedure will be executed in Job Schedule (in my case runs every 15 minutes), create the script of that job here [create-job-content.sql](create-job-content.sql); 
